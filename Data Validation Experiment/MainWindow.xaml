@@ -1,0 +1,303 @@
+﻿<Window x:Class="Data_Validation_Experiment.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Data_Validation_Experiment"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="800" Width="1400"
+        Background="#2D2D30">
+    <Window.Resources>
+
+        <System:Double x:Key="FontHeightMid">18</System:Double>
+        <Thickness  x:Key="BaseMargin" Left="0" Right="0" Top="10" Bottom="10" />
+
+        <FontFamily x:Key="robotoRegularFont">/resources/ROBOTO-REGULAR.TTF#Roboto</FontFamily>
+        <FontFamily x:Key="robotoThinFont">/resources/ROBOTO-THIN.TTF#Roboto Thin</FontFamily>
+
+        <Style TargetType="{x:Type Window}">
+            <Setter Property="FontFamily" Value="{StaticResource robotoThinFont}" />
+        </Style>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{StaticResource robotoThinFont}" />
+        </Style>
+
+
+        <!-- Geometria Design Colors -->
+        <SolidColorBrush x:Key="GeometriaPrimaryColorWhite1" Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="GeometriaPrimaryColorWhite2" Color="#FFF8F8F8"/>
+        <SolidColorBrush x:Key="GeometriaPrimaryColorGrey1" Color="#FFD8D8D8"/>
+        <SolidColorBrush x:Key="GeometriaPrimaryColorGrey2" Color="#FF4D4C4C"/>
+        <SolidColorBrush x:Key="GeometriaPrimaryColorGreen" Color="#FF4EB51C"/>
+        <SolidColorBrush x:Key="GeometriaPrimaryColorRed" Color="#FFFF0000"/>
+
+
+        <SolidColorBrush x:Key="GeometriaSecondaryColorBlue1" Color="#FF3DB0CC"/>
+        <SolidColorBrush x:Key="GeometriaSecondaryColorBlue2" Color="#FF4C89FF"/>
+        <SolidColorBrush x:Key="GeometriaSecondaryColorYellow" Color="#FFFFBF47"/>
+        <SolidColorBrush x:Key="GeometriaSecondaryColorRed" Color="#FFFF584C"/>
+        <SolidColorBrush x:Key="GeometriaSecondaryColorGreen" Color="#FFB8E986"/>
+
+
+
+        <SolidColorBrush x:Key="GeometriaAdatlapHatter" Color="#164C89FF"/>
+        <SolidColorBrush x:Key="GeometriaTextboxHatter" Color="#FFE8FADE"/>
+        <SolidColorBrush x:Key="GeometriaFocusedTextboxHatter" Color="#164EB51C"/>
+        <SolidColorBrush x:Key="GeometriaReadOnlyTextboxHatter" Color="#FFE5E5E5"/>
+        <SolidColorBrush x:Key="GeometriaExpanderHKVBackground" Color="#FF3967BF"/>
+
+        <!-- Material Colors -->
+        <SolidColorBrush x:Key="MaterialColorOrange" Color="#FFFF9800" />
+
+        <Style x:Key="TextBoxStyleBase" TargetType="{x:Type TextBox}">
+            <Setter Property="FontSize" Value="{StaticResource FontHeightMid}"/>
+            <Setter Property="TextWrapping" Value="NoWrap" />
+            <Setter Property="BorderBrush" Value="{StaticResource GeometriaPrimaryColorGrey1}" />
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Background" Value="#FFE8FADE" />
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CaretBrush" Value="{StaticResource GeometriaPrimaryColorGrey2}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource FeliratSzinSzerkesztheto}"/>
+            <Setter Property="Template">
+                
+                <Setter.Value>
+                    <ControlTemplate x:Name="BaseTextBoxTemplate" TargetType="{x:Type TextBox}">
+                        <Grid>
+                            <Border x:Name="border"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    CornerRadius="3,3,0,0"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Background="{TemplateBinding Background}"
+                                    SnapsToDevicePixels="True"
+                                    Padding="5">
+                                <ScrollViewer x:Name="PART_ContentHost" Focusable="false"
+                                                  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"
+                                                  SnapsToDevicePixels="True"
+                                                  UseLayoutRounding="True"/>
+                            </Border>
+                            <Viewbox HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Bottom"
+                                 Stretch="Fill"
+                                 Width="{Binding ActualWidth, ElementName=border}"
+                                 Height="2">
+                                <Canvas Width="100" Height="100" >
+                                    <Rectangle x:Name="DashedLine" 
+                                           Stroke="{x:Null}"                                           
+                                           Fill="{StaticResource GeometriaPrimaryColorGreen}" 
+                                           Canvas.Right="50"
+                                           Width="0" 
+                                           Height="100"
+                                           IsEnabled="False"/>
+                                    <Rectangle x:Name="DashedLineJobb" 
+                                           Stroke="{x:Null}"                                           
+                                           Fill="{StaticResource GeometriaPrimaryColorGreen}" 
+                                           Canvas.Left="50"
+                                           Width="0" 
+                                           Height="100"
+                                           IsEnabled="False"/>
+                                </Canvas>
+                            </Viewbox>
+                        </Grid>
+                        
+                        <ControlTemplate.Triggers>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="True" />
+                                    <Condition Property="IsReadOnly" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="DashedLine" Property="IsEnabled" Value="True"/>
+                                <MultiTrigger.EnterActions>
+                                    <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="DashedLine" Storyboard.TargetProperty="Width" From="0" To="50" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="DashedLineJobb" Storyboard.TargetProperty="Width" From="0" To="50" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </MultiTrigger.EnterActions>
+                                <MultiTrigger.ExitActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="DashedLine" Storyboard.TargetProperty="Width" From="50" To="0" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="DashedLineJobb" Storyboard.TargetProperty="Width" From="50" To="0" Duration="0:0:0.3">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase EasingMode="EaseOut" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </MultiTrigger.ExitActions>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="True" />
+                                    <Condition Property="Validation.HasError" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="Background" Value="#FFDAF5CB" />
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="IsReadOnly" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource GeometriaPrimaryColorGreen}"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsReadOnly" Value="False">
+                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,1"/>
+                            </Trigger>
+                            <Trigger Property="IsReadOnly" Value="True">
+                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,1"/>
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Foreground" Value="{DynamicResource FeliratSzinElsodleges}"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsFocused" Value="False" />
+                                    <Condition Property="IsReadOnly" Value="False" />
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" Value="#FFE8FADE"/>
+                            </MultiTrigger>
+
+                            <Trigger Property="Validation.HasError" Value="True">
+                                <Setter TargetName="DashedLine" Property="Fill" Value="{StaticResource MaterialColorOrange}"/>
+                                <Setter TargetName="DashedLineJobb" Property="Fill" Value="{StaticResource MaterialColorOrange}"/>
+                                <Setter TargetName="border" Property="Background" Value="#FFFFDA93" />
+                                <Setter Property="Validation.ErrorTemplate">
+                                    <Setter.Value>
+                                        <ControlTemplate>
+                                            <StackPanel>
+                                                <!-- Placeholder for the TextBox itself -->
+                                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                                <TextBlock Text="{Binding [0].ErrorContent, UpdateSourceTrigger=PropertyChanged}" Foreground="{StaticResource GeometriaSecondaryColorRed}"/>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+    
+    
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Column="1" Grid.Row="0"
+                   Text="{Binding Title}"
+                   Foreground="White"
+                   FontSize="40"
+                   VerticalAlignment="Top" HorizontalAlignment="Center" />
+
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="{StaticResource BaseMargin}">
+            <TextBlock Text="Only string characters: "
+                       Foreground="#FFC68BCF"
+                       FontSize="20"
+                       VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+            <TextBox MinWidth="150"
+                     Style="{StaticResource TextBoxStyleBase}"
+                >
+                <!--Text="{Binding AcceptOnlyString, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True }" >-->
+                <TextBox.Text>
+                    <Binding Path="AcceptOnlyString" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                        <!--<Binding.ValidationRules>
+                            <local:EmptyInputValidationRule ValidationStep="RawProposedValue"/>
+                        </Binding.ValidationRules>-->
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="{StaticResource BaseMargin}">
+            <TextBlock Text="Only int characters: "
+                       Foreground="Yellow"
+                       FontSize="20"
+                       VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+            <TextBox MinWidth="150"
+                     Style="{StaticResource TextBoxStyleBase}">
+                <TextBox.Text>
+                    <Binding Path="AcceptOnlyInt" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:StringToIntValidationRule ValidationStep="RawProposedValue"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"
+                    Orientation="Horizontal" HorizontalAlignment="Right"
+                    Margin="{StaticResource BaseMargin}">
+            <TextBlock Text="Only int characters between 10 and 100: "
+                       Foreground="Yellow"
+                       FontSize="20"
+                       VerticalAlignment="Center" HorizontalAlignment="Right" />
+
+            <TextBox MinWidth="150"
+                     Style="{StaticResource TextBoxStyleBase}"
+                >
+                <!--Text="{Binding Path=NumberBetweenValueErr, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">-->
+                <TextBox.Text>
+                    <Binding Path="NumberBetweenValueErr" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                        <Binding.ValidationRules>
+                            <local:StringToIntValidationRule ValidationStep="RawProposedValue"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+                <!--<TextBox.Text>
+                    <Binding Path="NumberBetweenValue" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <ExceptionValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>-->
+            </TextBox>
+        </StackPanel>
+
+        <Button Grid.Column="2" Grid.Row="1"
+                Margin="5,0,0,0"
+                Width="50" Height="35"
+                Content="X"
+                Command="{Binding EmptyCommand}" />
+    </Grid>
+    
+    
+</Window>
